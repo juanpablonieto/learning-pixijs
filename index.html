@@ -1,0 +1,80 @@
+<html>
+<head>
+  <title>Keep on learning Pixi dude</title>
+  <script src="js/pixi.min.js"></script>
+</head>
+
+<body>
+  <script>
+    //Aliases
+    var autoDetectRenderer = PIXI.autoDetectRenderer,
+        loader = PIXI.loader,
+        Rectangle = PIXI.Rectangle,
+        Sprite = PIXI.Sprite,
+        TextureCache = PIXI.utils.TextureCache;
+
+    var renderer = autoDetectRenderer(512,512);
+
+    document.body.appendChild(renderer.view);
+
+    var stage = new PIXI.Container();
+
+    renderer.render(stage);
+
+    //Todo esto para arriba es para crear un canvas negro 256x256
+
+    loader
+      .add("images/tileset.png")
+      .load(setupTileset);
+
+    function setupMaxiSprite() {
+      var maxiSprite = new Sprite(resources["images/Maxi - copia.png"].texture);
+
+      //Mover sprite
+      //maxiSprite.x = 100;
+      //maxiSprite.y = 200;
+      maxiSprite.position.set(100,200);
+
+      //Modificar tamaño de sprite
+      //maxiSprite.width = 80;
+      //maxiSprite.height = 120;
+      maxiSprite.scale.set(2,2); //Duplica su tamaño en alto y ancho
+
+      //Rotación
+      //maxiSprite.rotation = 0.5; //En radianes
+      //Por defecto, el eje de rotación se encuentra en la esquina superior izquierda
+      //Para que sea en el centro el eje de rotación:
+      maxiSprite.anchor.set(0.5, 0.5);
+      maxiSprite.rotation = 2;
+      //Tener en cuenta que al desplazar el eje hace que la imagen se mueva de su posición
+      //También existe una propiedad "pivot" el cual modifica su posición original de otra manera
+      //anchor --> mueve el origen a una posición proporcional entre 0 y 1
+      //pivot --> mueve el origen a una posición a tantos píxeles de su origen original
+
+
+      stage.addChild(maxiSprite);
+      renderer.render(stage);
+    }
+
+    function setupTileset() {
+      var texture = TextureCache["images/tileset.png"];
+
+      //rectangle define la posicion y tamaño de la subimagen que queremos sacar de la TextureCache
+      var rectangle = new Rectangle(100, 0, 50, 50);
+
+      //Decirle a la textura que use la seccion rectangular que definimos
+      texture.frame = rectangle;
+
+      //Crear un sprite de lo que seleccionamos
+      var theChosenOne = new Sprite(texture);
+
+      theChosenOne.position.set(300, 100);
+      stage.addChild(theChosenOne);
+      renderer.render(stage);
+
+    }
+
+  </script>
+</body>
+
+</html>
